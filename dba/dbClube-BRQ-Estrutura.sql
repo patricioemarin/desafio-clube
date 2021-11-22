@@ -1,0 +1,63 @@
+-- MySQL Workbench Synchronization
+-- Generated: 2021-11-22 19:47
+-- Model: New Model
+-- Version: 1.0
+-- Project: Name of the project
+-- Author: patri
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+CREATE TABLE IF NOT EXISTS `dbClube-BRQ`.`tbesportes` (
+  `espId` INT(11) NOT NULL AUTO_INCREMENT,
+  `espNome` VARCHAR(120) NOT NULL,
+  PRIMARY KEY (`espId`),
+  UNIQUE INDEX `espId_UNIQUE` (`espId` ASC) VISIBLE)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `dbClube-BRQ`.`tbassociado` (
+  `assId` INT(11) NOT NULL AUTO_INCREMENT,
+  `assNome` VARCHAR(80) NOT NULL,
+  `assSobrenome` VARCHAR(40) NULL DEFAULT NULL,
+  `assDataNascimento` DATE NOT NULL,
+  `assEmail` VARCHAR(60) NOT NULL,
+  `assTelefone` VARCHAR(10) NULL DEFAULT NULL,
+  `assCelular` VARCHAR(10) NOT NULL,
+  `assLogradouro` VARCHAR(80) NOT NULL,
+  `assComplemento` VARCHAR(40) NULL DEFAULT NULL,
+  `assBairro` VARCHAR(60) NOT NULL,
+  `assCidade` VARCHAR(60) NOT NULL,
+  `assUF` CHAR(2) NOT NULL,
+  `assCEP` VARCHAR(8) NOT NULL,
+  PRIMARY KEY (`assId`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+CREATE TABLE IF NOT EXISTS `dbClube-BRQ`.`tbmatricula` (
+  `matId` INT(11) NOT NULL AUTO_INCREMENT,
+  `espId` INT(11) NOT NULL,
+  `assId` INT(11) NOT NULL,
+  `matAdimplente` CHAR(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`matId`),
+  UNIQUE INDEX `matId_UNIQUE` (`matId` ASC) VISIBLE,
+  INDEX `fk_tbmatricula_tbassociado_idx` (`assId` ASC) VISIBLE,
+  INDEX `fk_tbmatricula_tbesportes1_idx` (`espId` ASC) VISIBLE,
+  CONSTRAINT `fk_tbmatricula_tbassociado`
+    FOREIGN KEY (`assId`)
+    REFERENCES `dbClube-BRQ`.`tbassociado` (`assId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tbmatricula_tbesportes1`
+    FOREIGN KEY (`espId`)
+    REFERENCES `dbClube-BRQ`.`tbesportes` (`espId`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
