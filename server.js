@@ -1,4 +1,3 @@
-
 // Importação do serviço (biblioteca) http
 const cnshttp = require('http');
 
